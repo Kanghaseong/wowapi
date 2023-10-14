@@ -2,15 +2,15 @@
 import mongoose from "mongoose";
 
 const TokenSchema = new mongoose.Schema({
-  accessToken: {
+  access_token: {
     type: String,
     required: true,
   },
-  expiresIn: {
+  expires_in: {
     type: Number,
     required: true,
   },
-  tokenType: {
+  token_type: {
     type: String,
     required: true,
   },
