@@ -13,7 +13,6 @@ export const getToken = async () => {
 
   const config = {
     method: 'post',
-    maxBodyLength: Infinity,
     url: 'https://oauth.battle.net/token',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'

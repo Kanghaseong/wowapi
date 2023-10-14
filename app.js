@@ -4,7 +4,10 @@ import { fetchCharacterData } from "./fetchCharacterData.js";
 import { connectDB } from "./dbConnect.js";
 import Character from "./CharacterModel.js";
 import Token from "./TokenModel.js";
-
+import crypto from "crypto";
+import axios from "axios";
+import dotenv from "dotenv";
+dotenv.config();
 const app = express();
 const port = 4000;
 
@@ -29,17 +32,15 @@ app.get("/token", async (req, res) => {
         accessToken: tokenData.access_token,
         expiresIn: tokenData.expires_in,
         tokenType: tokenData.token_type,
-        sub: tokenData.sub
+        sub: tokenData.sub,
       });
       await newToken.save();
       res.json(tokenData);
     }
-
   } catch (error) {
     res.status(500).send("Internal Server Error");
   }
 });
-
 
 app.post("/fetch-characters", async (req, res) => {
   const { characterNames } = req.body;
@@ -57,7 +58,8 @@ app.post("/fetch-characters", async (req, res) => {
       // 캐릭터 정보를 API에서 가져오기
       const data = await fetchCharacterData(name, tokenData.access_token);
 
-      if (data) {  // 데이터가 false가 아니라면
+      if (data) {
+        // 데이터가 false가 아니라면
         allData[name] = {
           gender: data.gender.name,
           race: data.race.name,
@@ -83,9 +85,40 @@ app.post("/fetch-characters", async (req, res) => {
   }
 
   res.json(allData); //블리자드 캐릭터 프로필 api로 정보를 불러오기 실패한 캐릭터는 현재 생략됩니다. 추후 정보를 가져오지 못한
-                     //캐릭터를 명시하도록 구현해야합니다.
+  //캐릭터를 명시하도록 구현해야합니다.
 });
 
+app.get("/oauth", async (req, res) => {
+
+  const {authorizationCode, code}= req.query;
+  console.log(req.query)
+
+  if (authorizationCode) {
+    try {
+
+      const tokenResponse = await axios.post(
+        "https://oauth.battle.net/oauth/token",
+        {
+          region: "kr",
+          grant_type: "authorization_code",
+          code: authorizationCode,
+          redirect_uri: "http://localhost:4000/oauth",
+          client_id: process.env.WOW_CLIENT_ID, 
+          state: code
+        }
+      )
+
+      const accessToken = tokenResponse.data.access_token;
+      // 이제 이 액세스 토큰을 사용해서 필요한 작업을 수행합니다.
+      res.send(`Access token 받음: ${accessToken}`);
+    } catch (error) {
+      //console.error("Error fetching access token:", error);
+      res.status(500).send("Access token을 얻는데 실패했습니다.");
+    }
+  } else {
+    res.status(400).send("Authorization code가 없습니다.");
+  }
+});
 
 app.get("/", (req, res) => {
   const html = `
@@ -97,6 +130,7 @@ app.get("/", (req, res) => {
     </body>
   </html>
 `;
+  console.log(typeof crypto.randomBytes(20).toString("hex"));
   res.send(html);
 });
 
