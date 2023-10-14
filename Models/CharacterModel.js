@@ -13,7 +13,14 @@ const CharacterSchema = new Schema({
   level: { type: Number, required: true },
   experience: { type: Number, required: true },
   last_login_timestamp: { type: Number, required: true },
-  is_ghost: { type: Boolean, required: true }
+  is_ghost: { type: Boolean, required: true },
+  createdAtCustom: { // 추가된 필드
+    type: String,
+    default: () => {
+      const now = new Date();
+      return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+    }
+  }
 });
 
 const Character = mongoose.model('Character', CharacterSchema);
