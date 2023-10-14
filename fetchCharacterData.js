@@ -14,7 +14,7 @@ export async function fetchCharacterData(characterName, token) {
     const response = await axios.request(config);
     return response.data;
   } catch (error) {
-    console.error(error);
+    //console.error(error);
     return null;
   }
 }
