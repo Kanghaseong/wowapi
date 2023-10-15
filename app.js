@@ -3,11 +3,12 @@ import dbConnect from "./dbConnect.js";
 import getAccessToken from "./getAccessToken.js";
 import saveToken from "./saveToken.js";
 import pushCharacters from "./pushCharacters.js"
+import cors from "cors";
 const app = express();
 const port = 4000;
 
 dbConnect();
-
+app.use(cors());
 app.use(express.json());
 
 app.get("/getAccessToken", getAccessToken, saveToken, (req, res) => {
@@ -15,7 +16,7 @@ app.get("/getAccessToken", getAccessToken, saveToken, (req, res) => {
 });
 
 
-app.post('/characters', getAccessToken, pushCharacters, (req, res) => {
+app.post('/characters', getAccessToken, saveToken, pushCharacters, (req, res) => {
   res.json({
     msg : "done"
   })

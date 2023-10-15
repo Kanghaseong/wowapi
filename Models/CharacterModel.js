@@ -3,18 +3,24 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const CharacterSchema = new Schema({
+  // 기존 필드들
   gender: { type: String, required: true },
   race: { type: String, required: true },
   name: { type: String, required: true },
   faction: { type: String, required: true },
   characterClass: { type: String, required: true },
   realm: { type: String, required: true },
-  guild: String,  // guild 정보가 없을 수 있으므로 required는 false
+  guild: String,  
   level: { type: Number, required: true },
   experience: { type: Number, required: true },
   last_login_timestamp: { type: Number, required: true },
   is_ghost: { type: Boolean, required: true },
-  createdAtCustom: { // 추가된 필드
+
+  // 새로운 필드: 캐릭터가 완전히 죽었는지 여부
+  is_fully_dead: { type: Boolean, default: false },
+
+  // 기존의 createdAtCustom 필드
+  createdAtCustom: {
     type: String,
     default: () => {
       const now = new Date();
