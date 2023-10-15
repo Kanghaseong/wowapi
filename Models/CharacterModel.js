@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
@@ -8,9 +8,9 @@ const CharacterSchema = new Schema({
   race: { type: String, required: true },
   name: { type: String, required: true },
   faction: { type: String, required: true },
-  characterClass: { type: String, required: true },
+  character_class: { type: String, required: true },
   realm: { type: String, required: true },
-  guild: String,  
+  guild: String,
   level: { type: Number, required: true },
   experience: { type: Number, required: true },
   last_login_timestamp: { type: Number, required: true },
@@ -25,10 +25,10 @@ const CharacterSchema = new Schema({
     default: () => {
       const now = new Date();
       return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
-    }
-  }
+    },
+  },
 });
 
-const Character = mongoose.model('Character', CharacterSchema);
+const Character = mongoose.model("Character", CharacterSchema);
 
 export default Character;

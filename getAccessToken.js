@@ -20,9 +20,6 @@ export default async function getAccessToken(req, res, next) {
 
     req.token = response.data;
 
-    console.log("AccessToken accept Success..!")
-    console.log(req.token)
-
     next();
   } catch (error) {
     console.error('Error fetching access token:', error);

@@ -30,10 +30,10 @@ export default async function pushCharacters(req, res, next) {
         } = response.data;
 
         const newCharacter = {
-          gender: gender.type,
+          gender: gender.name,
           race: race.name,
           name,
-          faction: faction.type,
+          faction: faction.name,
           characterClass: character_class.name,
           realm: realm.name,
           guild: guild ? guild.name : null,
