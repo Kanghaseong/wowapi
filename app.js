@@ -19,10 +19,6 @@ const task = cron.schedule("0 * * * * *", () => {
   everyminute();
 });
 
-app.get("/getAccessToken", getAccessToken, (req, res) => {
-  res.json(req.token);
-});
-
 app.post("/characters", verifySecretCode, getAccessToken, pushCharacters, (req, res) => {
   res.json({
     msg: "done",
