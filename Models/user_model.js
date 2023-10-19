@@ -1,9 +1,6 @@
 import mongoose from "mongoose";
 
-const { Schema } = mongoose;
-
-const CharacterSchema = new Schema({
-  // 기존 필드들
+const user_schema = new mongoose.Schema({
   gender: { type: String, required: true },
   race: { type: String, required: true },
   name: { type: String, required: true },
@@ -16,10 +13,10 @@ const CharacterSchema = new Schema({
   last_login_timestamp: { type: Number, required: true },
   is_ghost: { type: Boolean, required: true },
 
-  // 새로운 필드: 캐릭터가 완전히 죽었는지 여부
+  // 캐릭터가 완전히 죽었는지 여부
   is_fully_dead: { type: Boolean, default: false },
 
-  // 기존의 createdAtCustom 필드
+  //데이터 저장당시 시간 저장 필드
   createdAtCustom: {
     type: String,
     default: () => {
@@ -29,6 +26,6 @@ const CharacterSchema = new Schema({
   },
 });
 
-const Character = mongoose.model("Character", CharacterSchema);
+const User = mongoose.model("User", user_schema);
 
-export default Character;
+export default User;

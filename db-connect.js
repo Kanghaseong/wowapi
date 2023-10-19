@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 
-export default async function dbConnect() {
+export default async function db_connect() {
   try {
     await mongoose.connect(`mongodb+srv://hagota:${process.env.MONGO_PASSWORD}@gachacluster.nptwd2a.mongodb.net/`, {
       useNewUrlParser: true,
