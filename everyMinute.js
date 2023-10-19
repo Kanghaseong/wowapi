@@ -17,11 +17,12 @@ export default async function everyminute() {
       },
     }
   );
+
   const characterData = await Character.find({}, "name");
   const characterNames = characterData.map((character) => character.name);
 
   const token = response1.data.access_token; //token
-
+  console.log(token);
   for (const characterName of characterNames) {
     const encodedCharacterName = encodeURIComponent(characterName);
     try {

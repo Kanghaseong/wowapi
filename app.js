@@ -11,7 +11,11 @@ import cors from "cors";
 const app = express();
 const port = 4000;
 dbConnect();
-app.use(cors());
+const corsOptions = {
+  origin: ["https://i-love-wow-hardcore.vercel.app", "http://localhost:3000"],
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 const task = cron.schedule("0 * * * * *", () => {
@@ -29,6 +33,11 @@ app.post("/characters", verifySecretCode, getAccessToken, pushCharacters, (req, 
 app.get("/characterInfos", pullCharacters, (req, res) => {
   console.log("all data sended");
   res.json({ success: true, characterInfos: req.characters });
+});
+
+app.get("/ouath", (req, res) => {
+  console.log(req);
+  res.send("abcd");
 });
 
 app.use((req, res, next) => {
