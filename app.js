@@ -43,6 +43,10 @@ app.get("/users", get_users, (req, res) => {
 //   res.send("abcd");
 // });
 
+app.get("/", (req, res) => {
+  res.status(200).send("health check OK");
+});
+
 app.use((req, res, next) => {
   res.status(404).json({ success: false, message: "Page Not Found" });
 });
