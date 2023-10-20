@@ -9,7 +9,7 @@ import cron from "node-cron";
 import cors from "cors";
 
 const app = express();
-const port = 4000; //배포환경에서 포트번호는 환경변수에 담아야 하는건가?
+const port = process.env.MY_PORT; //배포환경에서 포트번호는 환경변수에 담아야 하는건가?
 
 db_connect();
 const cors_options = {
