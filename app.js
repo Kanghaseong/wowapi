@@ -31,7 +31,10 @@ app.post("/users", verify_secret_code, get_access_token, save_users, (req, res) 
 });
 
 app.get("/users", get_users, (req, res) => {
-  console.log("all data sended");
+  for (const user of req.users) {
+    console.log(`data : ${user.name}, OK`);
+  }
+
   res.json({ success: true, users: req.users });
 });
 

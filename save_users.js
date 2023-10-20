@@ -4,15 +4,12 @@ import axios from "axios";
 export default async function save_users(req, res, next) {
   try {
     const users = req.body.users;
-    console.log(users);
-    console.log(req.token.access_token);
     const accessToken = req.token.access_token;
     const user_names = []; // 이 부분을 다시 추가했습니다.
 
     for (const user of users) {
-      console.log(user);
       const encoded_user_name = encodeURIComponent(user);
-      console.log(encoded_user_name);
+
       try {
         const response = await axios.get(
           `https://kr.api.blizzard.com/profile/wow/character/makgora/${encoded_user_name}?namespace=profile-classic1x-kr&locale=ko_KR&access_token=${accessToken}`
