@@ -17,7 +17,6 @@ export default async function get_access_token(req, res, next) {
       }
     );
     console.log("access token called");
-    console.log(response.data);
     req.token = response.data;
 
     next();
