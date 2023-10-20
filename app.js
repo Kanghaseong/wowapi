@@ -31,9 +31,11 @@ app.post("/users", verify_secret_code, get_access_token, save_users, (req, res) 
 });
 
 app.get("/users", get_users, (req, res) => {
+  let log_arr = [];
   for (const user of req.users) {
-    console.log(`data : ${user.name}, OK, ${new Date()}`);
+    log_arr.push(user.name);
   }
+  console.log(`data : ${log_arr}, OK, ${new Date()}`);
 
   res.json({ success: true, users: req.users });
 });
