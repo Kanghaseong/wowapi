@@ -55,9 +55,9 @@ export default async function save_users(req, res, next) {
     }
 
     req.user_names = user_names;
-    x;
-    next(); // 다음 미들웨어나 라우터 핸들러를 호출합니다.
+    next();
   } catch (error) {
+    console.log(error, "Internal Server Error : save");
     res.status(500).send("Internal Server Error : save");
   }
 }
