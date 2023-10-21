@@ -40,14 +40,16 @@ export default async function save_users(req, res, next) {
           upsert: true,
         });
 
-        user_names.push(new_user.name);
+        user_names.push(new_user.name); // 유효한 이름은 배열에 저장.
       } catch (error) {
         if (error.response && error.response.status === 404) {
-          console.log(`User ${user} not found.`);
+          console.log(`User ${user} not found in blizzard character names api server.`);
           await User.findOneAndUpdate(
             { name: user }, // 찾을 조건
-            { is_fully_dead: true } // 업데이트할 데이터
+            { is_ghost: true } // 업데이트할 데이터
           );
+        } else if (error.response && error.response.status === 403) {
+          console.log(`blizzard server send 403 state code`);
         } else {
           console.log("An error occurred:", error);
         }
@@ -55,6 +57,7 @@ export default async function save_users(req, res, next) {
     }
 
     req.user_names = user_names;
+    console.log(`valid names is ${user_names}`);
     next();
   } catch (error) {
     console.log(error, "Internal Server Error : save");
