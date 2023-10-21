@@ -5,7 +5,7 @@ const user_schema = new mongoose.Schema({
   race: { type: String, required: true },
   name: { type: String, required: true },
   faction: { type: String, required: true },
-  character_class: { type: String, required: true },
+  user_class: { type: String, required: true },
   realm: { type: String, required: true },
   guild: String,
   level: { type: Number, required: true },

@@ -1,6 +1,6 @@
 import axios from "axios";
 import dotenv from "dotenv";
-import Character from "./Models/user_model.js";
+import User from "./Models/user_model.js";
 
 dotenv.config();
 
@@ -18,26 +18,26 @@ export default async function everyminute() {
     }
   );
 
-  const characterData = await Character.find({}, "name");
-  const characterNames = characterData.map((character) => character.name);
+  const userData = await User.find({}, "name");
+  const userNames = userData.map((user) => user.name);
 
   const token = response1.data.access_token; //token
   console.log(token);
-  for (const characterName of characterNames) {
-    const encodedCharacterName = encodeURIComponent(characterName);
+  for (const userName of userNames) {
+    const encodeduserName = encodeURIComponent(userName);
     try {
       const response2 = await axios.get(
-        `https://kr.api.blizzard.com/profile/wow/character/makgora/${encodedCharacterName}?namespace=profile-classic1x-kr&locale=ko_KR&access_token=${token}`
+        `https://kr.api.blizzard.com/profile/wow/character/makgora/${encodeduserName}?namespace=profile-classic1x-kr&locale=ko_KR&access_token=${token}`
       );
       const { gender, race, name, faction, character_class, realm, guild, level, experience, last_login_timestamp, is_ghost } =
         response2.data;
 
-      const newCharacter = {
+      const new_user = {
         gender: gender.name,
         race: race.name,
         name,
         faction: faction.name,
-        character_class: character_class.name,
+        user_class: character_class.name,
         realm: realm.name,
         guild: guild ? guild.name : null,
         level,
@@ -50,14 +50,14 @@ export default async function everyminute() {
       const conditions = { name };
 
       // 데이터베이스에 저장 또는 덮어쓰기
-      await Character.findOneAndReplace(conditions, newCharacter, {
+      await User.findOneAndReplace(conditions, new_user, {
         upsert: true,
       });
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        console.log(`Character ${character} not found.`);
-        await Character.findOneAndUpdate(
-          { name: character }, // 찾을 조건
+        console.log(`User:  ${user} not found.`);
+        await User.findOneAndUpdate(
+          { name: userName }, // 찾을 조건
           { is_fully_dead: true } // 업데이트할 데이터
         );
       } else {
