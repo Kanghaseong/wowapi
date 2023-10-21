@@ -19,6 +19,8 @@ export default async function everyminute() {
   );
 
   const userData = await User.find({}, "name");
+  // userData => [{ _id: new ObjectId("65316b86cb220354823cd175"), name: '응안줘' }, ...]
+
   const userNames = userData.map((user) => user.name);
 
   const token = response1.data.access_token; //token
