@@ -18,7 +18,7 @@ const cors_options = {
 app.use(cors(cors_options));
 app.use(express.json());
 
-const task = cron.schedule("0 * * * * *", () => {
+const task = cron.schedule("10 * * * * *", () => {
   console.log(`data updated!,${new Date()} `);
   every_minute();
 });

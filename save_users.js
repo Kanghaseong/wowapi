@@ -5,7 +5,7 @@ export default async function save_users(req, res, next) {
   try {
     const users = req.body.users;
     const accessToken = req.token.access_token;
-    const user_names = []; // 이 부분을 다시 추가했습니다.
+    const user_names = [];
 
     for (const user of users) {
       const encoded_user_name = encodeURIComponent(user);
@@ -40,7 +40,7 @@ export default async function save_users(req, res, next) {
           upsert: true,
         });
 
-        user_names.push(new_user.name); // 이 부분을 다시 추가했습니다.
+        user_names.push(new_user.name);
       } catch (error) {
         if (error.response && error.response.status === 404) {
           console.log(`User ${user} not found.`);
@@ -54,9 +54,10 @@ export default async function save_users(req, res, next) {
       }
     }
 
-    req.user_names = user_names; // 다시 추가했습니다.
+    req.user_names = user_names;
+    x;
     next(); // 다음 미들웨어나 라우터 핸들러를 호출합니다.
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Internal Server Error : save");
   }
 }

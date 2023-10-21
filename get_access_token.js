@@ -22,6 +22,6 @@ export default async function get_access_token(req, res, next) {
     next();
   } catch (error) {
     console.error("Error fetching access token:", error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Internal Server Error : token");
   }
 }
