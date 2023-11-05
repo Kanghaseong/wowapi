@@ -18,15 +18,17 @@ export default async function everyminute() {
     }
   );
 
-  const userData = await User.find({}, "name");
+  const userData = await User.find({}, "name is_deleted");
+
   // userData => [{ _id: new ObjectId("65316b86cb220354823cd175"), name: '응안줘' }, ...]
 
-  const userNames = userData.map((user) => user.name);
+  const userNames = userData.filter((user) => user.is_deleted !== true).map((user) => user.name);
 
   const token = response1.data.access_token; //token
   console.log(token);
   for (const userName of userNames) {
     const encodeduserName = encodeURIComponent(userName);
+
     try {
       const response2 = await axios.get(
         `https://kr.api.blizzard.com/profile/wow/character/makgora/${encodeduserName}?namespace=profile-classic1x-kr&locale=ko_KR&access_token=${token}`
@@ -57,10 +59,10 @@ export default async function everyminute() {
       });
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        console.log(`User:  ${user} not found.`);
+        console.log(`Character ${userName} deleted from owner.`);
         await User.findOneAndUpdate(
           { name: userName }, // 찾을 조건
-          { is_fully_dead: true } // 업데이트할 데이터
+          { is_fully_dead: true, is_deleted: true } // 업데이트할 데이터
         );
       } else {
         console.log("An error occurred: 1", error);

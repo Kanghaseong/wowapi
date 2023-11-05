@@ -12,6 +12,7 @@ const user_schema = new mongoose.Schema({
   experience: { type: Number, required: true },
   last_login_timestamp: { type: Number, required: true },
   is_ghost: { type: Boolean, required: true },
+  is_deleted: { type: Boolean, default: false },
 
   // 캐릭터가 완전히 죽었는지 여부
   is_fully_dead: { type: Boolean, default: false },
